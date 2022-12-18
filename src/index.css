@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .data-table {
+    @apply table-auto;
+    @apply w-full;
+    @apply text-left;
+    @apply border-collapse;
+    @apply border border-gray-300;
+    @apply rounded;
+    @apply overflow-hidden;
+    @apply shadow;
+  }
+  .data-table thead {
+    @apply bg-gray-100;
+  }
+  .data-table th {
+    @apply font-bold;
+    @apply text-gray-700;
+    @apply text-left;
+    @apply border-b;
+    @apply border-gray-300;
+    @apply p-2;
+  }
+  .data-table tbody td {
+    @apply text-gray-300;
+    @apply bg-zinc-800;
+    @apply border-b;
+    @apply border-gray-300;
+    @apply p-2;
+  }
+  .data-table tfoot {
+    @apply bg-gray-100;
+  }
+  .data-table tfoot td {
+    @apply font-bold;
+    @apply text-gray-700;
+    @apply border-b;
+    @apply border-gray-300;
+    @apply p-2;
+  }
+
+  a {
+    @apply cursor-pointer;
+  }
+}
