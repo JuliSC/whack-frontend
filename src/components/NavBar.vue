@@ -1,5 +1,5 @@
 <template>
-  <nav data-cy="nav" class="fixed z-50">
+  <nav data-cy="nav" class="fixed z-50 w-full">
     <div class="flex">
       <a
         class="mr-5 text-4xl text-white cursor-pointer bg-transparent text-shadow -rotate-12"
@@ -13,20 +13,48 @@
         ></a
       >
       <a
+        :data-cy="item.link"
         class="mx-5 text-2xl text-white transition-all ease-in-out hover:scale-110"
-        :class="{ 'text-shadow-white': item.link === $route.path }"
+        :class="{
+          'text-shadow-white': item.link === $route.path,
+        }"
         v-for="item in navItems"
         :key="item.title"
         href=""
         @click.prevent="$router.push(item.link)"
         >{{ item.title }}</a
       >
+      <div class="transition-all ease-in-out hover:scale-110 ml-auto pr-10">
+        <a
+          data-cy="logout"
+          class="ml-auto pr-8 mx-5 text-2xl text-white transition-all ease-in-out hover:scale-110"
+          v-if="userStore.isAuthenticated"
+          href=""
+          @click.prevent="userStore.logout()"
+          >Log out</a
+        >
+        <a
+          data-cy="login"
+          class="ml-auto pr-8 mx-5 text-2xl text-white transition-all ease-in-out hover:scale-110"
+          :class="{
+            'text-shadow-white': $route.path === '/login',
+          }"
+          v-else
+          @click.prevent="$router.push('/login')"
+          href=""
+        >
+          Log in
+        </a>
+      </div>
     </div>
   </nav>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { useUserStore } from "@/stores/user";
+
+const userStore = useUserStore();
 
 interface NavItem {
   title: string;
@@ -36,7 +64,6 @@ interface NavItem {
 const navItems = ref<NavItem[]>([
   { title: "Summoners", link: "/" },
   { title: "Matches", link: "/matches" },
-  { title: "Ranks", link: "/ranks" },
 ]);
 
 const letterColors = ref<string[]>([

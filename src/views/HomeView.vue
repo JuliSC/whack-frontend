@@ -13,55 +13,53 @@
         />
       </form>
     </div>
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Summoner Name</th>
-          <th>Icon</th>
-          <th>Level</th>
-          <th>Rank ID</th>
-          <th>Region ID</th>
-          <th>Admin</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="summoner in filteredSummoners" :key="summoner.summonerName">
-          <td>{{ summoner.id }}</td>
-          <td :data-cy="summoner.summonerName">{{ summoner.summonerName }}</td>
-          <td>{{ summoner.icon }}</td>
-          <td>{{ summoner.level }}</td>
-          <td>{{ summoner.rankId }}</td>
-          <td>{{ summoner.regionId }}</td>
-          <td>{{ summoner.isAdmin }}</td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tfoot>
-    </table>
+
+    <div class="bg-white shadow-md rounded-md p-4">
+      <table data-cy="summoners-table" class="data-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Summoner Name</th>
+            <th>Level</th>
+            <th>Rank</th>
+            <th>LP</th>
+            <th>Region ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="summoner in filteredSummoners"
+            :key="summoner.summonerName"
+          >
+            <td>{{ summoner.id }}</td>
+            <td :data-cy="summoner.summonerName">
+              {{ summoner.summonerName }}
+            </td>
+            <td>{{ summoner.level }}</td>
+            <td>
+              {{ summoner.rank.tier.name }} {{ summoner.rank.division.name }}
+            </td>
+            <td>{{ summoner.rank.lp }}</td>
+            <td>{{ summoner.region.name }}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tfoot>
+      </table>
+    </div>
   </main>
 </template>
 
 <script setup lang="ts">
+import type { Summoner } from "@/@types/GeneralLolTypes";
 import axios from "axios";
 import { computed, onMounted, ref } from "vue";
-
-interface Summoner {
-  id: number;
-  summonerName: string;
-  icon: number;
-  level: number;
-  rankId: number;
-  regionId: number;
-  isAdmin: boolean;
-}
 
 const summoners = ref<Summoner[]>([]);
 const filter = ref<string>("");
@@ -81,17 +79,12 @@ onMounted(async () => {
       "Content-Type": "application/json",
     },
   })
-    .then((res) => (summoners.value = res.data))
-    .catch((err) => alert("Oops! Something went wrong!"));
+    .then((res) => {
+      console.log(res.data);
 
-  axios("http://localhost:3001/sql/summoner", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+      summoners.value = res.data;
+    })
+    .catch((err) => alert("Oops! Something went wrong!"));
 });
 </script>
 

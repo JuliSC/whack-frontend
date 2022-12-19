@@ -14,6 +14,21 @@ const router = createRouter({
       name: "matches",
       component: () => import("../views/MatchesView.vue"),
     },
+    {
+      path: "/login",
+      name: "login",
+      component: () => import("../views/LoginView.vue"),
+    },
+    {
+      path: "/matches/:matchId",
+      name: "match-details",
+      component: () => import("../views/MatchDetails.vue"),
+      props: true,
+    },
+    {
+      path: "/:pathMatch(.*)*",
+      redirect: "/",
+    },
   ],
 });
 

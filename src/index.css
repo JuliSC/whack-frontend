@@ -15,18 +15,22 @@
   }
   .data-table thead {
     @apply bg-gray-100;
+    @apply text-gray-700;
   }
+
   .data-table th {
     @apply font-bold;
-    @apply text-gray-700;
+    @apply border-t;
     @apply text-left;
     @apply border-b;
-    @apply border-gray-300;
+    @apply border-gray-500;
     @apply p-2;
+  }
+  .data-table tbody tr {
+    @apply bg-zinc-800;
   }
   .data-table tbody td {
     @apply text-gray-300;
-    @apply bg-zinc-800;
     @apply border-b;
     @apply border-gray-300;
     @apply p-2;
@@ -44,5 +48,10 @@
 
   a {
     @apply cursor-pointer;
+  }
+
+  .TAILWIND_INCLUDE {
+    @apply text-green-500;
+    @apply text-red-500;
   }
 }

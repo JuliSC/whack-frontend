@@ -1,25 +1,26 @@
 <template>
   <div class="bg-white shadow-md rounded-md p-4">
-    <form>
-      <label class="block font-bold mb-2 text-gray-700" for="name"
-        >Summoner</label
-      >
-      <input
-        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        id="name"
-        type="text"
-      />
-    </form>
-    <table class="data-table">
+    <table data-cy="matches-table" class="data-table">
       <thead>
         <th>ID</th>
         <th>Game Duration</th>
         <th>Played On</th>
       </thead>
       <tbody>
-        <tr v-for="match in matches" :key="match.id">
+        <tr
+          :data-cy="`match-${match.id}`"
+          @click="
+            $router.push({
+              name: 'match-details',
+              params: { matchId: match.id },
+            })
+          "
+          class="cursor-pointer hover:bg-zinc-700"
+          v-for="match in matches"
+          :key="match.id"
+        >
           <td>{{ match.id }}</td>
-          <td>{{ match.duration }}</td>
+          <td>{{ toMinuteString(match.duration) }}</td>
           <td>
             {{ new Date(parseInt(match.gameCreation)).toLocaleDateString() }}
           </td>
@@ -30,14 +31,9 @@
 </template>
 
 <script setup lang="ts">
+import type { Match } from "@/@types/GeneralLolTypes";
 import axios from "axios";
 import { onMounted, ref } from "vue";
-
-interface Match {
-  id: number;
-  duration: number;
-  gameCreation: string;
-}
 
 const matches = ref<Match[]>([]);
 
@@ -52,9 +48,15 @@ onMounted(async () => {
       matches.value = response.data;
     })
     .catch((error) => {
-      console.log(error);
+      alert("Oops! Something went wrong.");
     });
 });
+
+function toMinuteString(duration: number) {
+  const minutes = Math.floor(duration / 60);
+  const seconds = duration % 60;
+  return `${minutes}m ${seconds}s`;
+}
 </script>
 
 <style scoped></style>
