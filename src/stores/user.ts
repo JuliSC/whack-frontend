@@ -42,5 +42,14 @@ export const useUserStore = defineStore({
 
       router.push("/");
     },
+    autoLogin() {
+      const token = localStorage.getItem("token");
+      const user = localStorage.getItem("user");
+
+      if (token && user) {
+        this.username = user;
+        this.isAuthenticated = true;
+      }
+    },
   },
 });
