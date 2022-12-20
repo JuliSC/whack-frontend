@@ -24,14 +24,18 @@ export const useUserStore = defineStore({
           summonerName: username,
           password,
         },
-      }).then((response) => {
-        this.username = response.data.user.summonerName;
-        localStorage.setItem("token", response.data.accessToken);
-        localStorage.setItem("user", response.data.user.summonerName);
+      })
+        .then((response) => {
+          this.username = response.data.user.summonerName;
+          localStorage.setItem("token", response.data.accessToken);
+          localStorage.setItem("user", response.data.user.summonerName);
 
-        this.isAuthenticated = true;
-        router.push("/");
-      });
+          this.isAuthenticated = true;
+          router.push("/");
+        })
+        .catch((error) => {
+          alert(error.response.data.message);
+        });
     },
     logout() {
       this.username = userDefaults.username;

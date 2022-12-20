@@ -72,12 +72,15 @@ onMounted(() => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
-  }).then((response) => {
-    console.log(response.data);
-
-    match.value = response.data;
-  });
+  })
+    .then((response) => {
+      match.value = response.data;
+    })
+    .catch((error) => {
+      alert(error.response.data.message);
+    });
 });
 </script>
 

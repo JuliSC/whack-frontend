@@ -77,14 +77,13 @@ onMounted(async () => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
   })
     .then((res) => {
-      console.log(res.data);
-
       summoners.value = res.data;
     })
-    .catch((err) => alert("Oops! Something went wrong!"));
+    .catch((err) => alert(err.response.data.message));
 });
 </script>
 

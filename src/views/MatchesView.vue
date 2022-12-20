@@ -42,13 +42,14 @@ onMounted(async () => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
   })
     .then((response) => {
       matches.value = response.data;
     })
     .catch((error) => {
-      alert("Oops! Something went wrong.");
+      alert(error.response.data.message);
     });
 });
 
