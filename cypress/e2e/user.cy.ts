@@ -28,6 +28,6 @@ describe("Login/logout", () => {
 
   it("users can log out", () => {
     cy.visit("/");
-    cy.get('[data-cy="login"]').should("exist");
+    cy.get('[data-cy="/login"]').should("exist");
   });
 });

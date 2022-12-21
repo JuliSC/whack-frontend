@@ -21,7 +21,7 @@ describe("Summoner page", () => {
 
       it("filters table and displays some summoners, but not all", () => {
         cy.login();
-        cy.get("#filter").type("khk");
+        cy.get('[data-cy="filter"]').type("khk");
 
         cy.get('[data-cy="khk tlamp"]').should("exist");
         cy.get('[data-cy="dayns"]').should("not.exist");
@@ -42,7 +42,7 @@ describe("Summoner page", () => {
       });
 
       it("filters table and displays less summoners", () => {
-        cy.get("#filter").type("💩");
+        cy.get('[data-cy="filter"]').type("💩");
 
         cy.get('[data-cy="summoners-table"]')
           .find("tbody tr")
