@@ -1,16 +1,14 @@
 /* eslint-disable @typescript-eslint/no-namespace */
-// eslint-disable-next-line @typescript-eslint/no-namespace
+import { mount } from "cypress/vue";
+import { createPinia } from "pinia";
+import { createRouter, createMemoryHistory } from "vue-router";
+import { useUserStore } from "../../src/stores/user";
+import router from "../../src/router/index";
 
-/// <reference types="cypress" />
-// ***********************************************
-// This example commands.ts shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import type { App } from "vue";
+
+const routes = router.getRoutes();
 
 /// <reference types="cypress" />
 
@@ -18,11 +16,11 @@ declare global {
   namespace Cypress {
     interface Chainable {
       login(): Chainable<any>;
+      mount(component: any, options?: Record<string, any>): Chainable<any>;
     }
   }
 }
 
-// -- This is a parent command --
 Cypress.Commands.add("login", () => {
   cy.visit("/login");
   cy.get('[data-cy="username-input"]').type("khk tlamp");
@@ -30,6 +28,31 @@ Cypress.Commands.add("login", () => {
   cy.get('[data-cy="login-button"]').click();
 
   cy.get('[data-cy="logout"]').should("exist");
+});
+
+Cypress.Commands.add("mount", (component, options = {}) => {
+  const router = createRouter({
+    routes,
+    history: createMemoryHistory(),
+  });
+
+  const installRouterPlugin = (app: App) => {
+    app.use(router);
+  };
+
+  options = {
+    global: {
+      plugins: [installRouterPlugin],
+    },
+    ...options,
+  };
+
+  options.path && cy.wrap(router.push(options.path));
+
+  const pinia = createPinia();
+  options.store || useUserStore(pinia);
+
+  return mount(component, options);
 });
 
 export {};

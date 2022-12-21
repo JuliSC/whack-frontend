@@ -34,7 +34,7 @@
           >Log out</a
         >
         <a
-          data-cy="login"
+          data-cy="/login"
           class="ml-auto pr-8 mx-5 text-2xl text-white transition-all ease-in-out hover:scale-110"
           :class="{
             'text-shadow-white': $route.path === '/login',

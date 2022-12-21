@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory, type Router } from "vue-router";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { pinia } from "../../main";
 import router from "../../router";
 import NavBar from "../NavBar.vue";
 
@@ -8,7 +10,7 @@ const routes = router.getRoutes();
 let testRouter: Router;
 beforeEach(() => {
   testRouter = createRouter({
-    history: createWebHistory(),
+    history: createWebHistory(import.meta.env.BASE_URL),
     routes: routes,
   });
 
@@ -27,7 +29,7 @@ describe("NavBar", () => {
 });
 
 // Link data provider
-const provideLinks = ["/", "/matches", "/ranks"];
+const provideLinks = ["/", "/matches", "/login"];
 
 describe("NavBar", () => {
   provideLinks.forEach((link) => {
